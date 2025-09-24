@@ -32,18 +32,14 @@ class Movement(models.Model):
 
 class Exercise(models.Model):
     movement = models.ForeignKey(Movement, on_delete=models.CASCADE)
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
     date_created = models.DateTimeField("date created")
     time_spent_s = models.IntegerField()
     label = models.CharField(max_length=1000, null=True, blank=True)
     notes = models.CharField(max_length=32000, null=True, blank=True)
 
-class Workout_Exercise(models.Model):
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    order_idx = models.IntegerField()
-
 class Set(models.Model):
-    workout_exercise = models.ForeignKey(Workout_Exercise, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     set_num = models.IntegerField()
     reps = models.IntegerField(null=True, blank=True)
     weight = models.IntegerField(null=True, blank=True)
