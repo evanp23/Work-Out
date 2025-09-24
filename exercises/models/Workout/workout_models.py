@@ -15,6 +15,15 @@ class Workout(models.Model):
     def __str__(self):
         return ("WORKOUT: " + self.gym)
 
+    def jsonToWorkout(workout, json):
+        workout.gym = json['gym'] if "gym" in json else workout.gym
+        workout.started = json['started'] if "started" in json else workout.started
+        workout.completed = json['completed'] if "completed" in json else workout.completed
+        workout.label = json['label'] if "label" in json else workout.label
+        workout.notes = json['notes'] if "notes" in json else workout.notes
+
+        return workout
+
 class Movement(models.Model):
     name = models.CharField(max_length=500)
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING)

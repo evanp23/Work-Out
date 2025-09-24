@@ -12,10 +12,10 @@ class User(models.Model):
         ordering=['username']
     
     def jsonToUser(user, json):
-        user.username = json['username']
-        user.first_name = json['firstName']
-        user.last_name = json['lastName']
-        user.email = json['email']
-        user.pwd = json['pwd']
+        user.username = json['username'] if "username" in json else user.username
+        user.first_name = json['firstName'] if "firstName" in json else user.firstName
+        user.last_name = json['lastName'] if "lastName" in json else user.lastName
+        user.email = json['email'] if "email" in json else user.email
+        user.pwd = json['pwd'] if "pwd" in json else user.pwd
 
         return user
