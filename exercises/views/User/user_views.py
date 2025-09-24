@@ -37,7 +37,7 @@ def createUser(request):
 @csrf_exempt
 def user(request, id):
     if not(User.objects.filter(pk=id)):
-        return HttpResponse("{\"error\": \"user does not exist\"}", content_type='application/json')
+        return HttpResponse("{\"error\": \"user does not exist\"}", content_type='application/json', status=HTTPStatus.NOT_FOUND)
     user = User.objects.get(pk=id)
 
     # get user by id
