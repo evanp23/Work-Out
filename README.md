@@ -1,1 +1,1 @@
-Straightforward tool for logging workouts, including features for set and rep counts, exercises, workout notes, etc.
+Straightforward tool for logging workouts, including features for logging set and rep counts, specific exercises, workout notes, etc.
