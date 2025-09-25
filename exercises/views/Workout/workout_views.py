@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import json
 from django.http import HttpResponse,JsonResponse
-from exercises.models.Workout.workout_models import Workout
+from exercises.models.Workout.workout_models import Workout, Exercise, Movement
 from exercises.models.User.user_models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -57,3 +57,11 @@ def workout(request, id):
     elif(request.method == 'DELETE'):
         workout.delete()
         return HttpResponse(status=HTTPStatus.NO_CONTENT)
+
+# get all exercises with given workout id
+def workoutExercise(request, id):
+    exercises = Exercise.objects.filter(workout=id)
+
+    if(request.method == 'GET'):
+        res_json = serializers.serialize("json", exercises)
+        return HttpResponse(res_json, content_type='application/json')

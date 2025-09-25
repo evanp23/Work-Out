@@ -4,7 +4,7 @@ django==4.2.24
 django-seed==0.3.1
 Faker==35.2.2
 python-dateutil==2.9.0.post0
-six @ file:///AppleInternal/BuildRoot/Library/Caches/com.apple.xbs/Sources/python3/python3-103/six-1.15.0-py2.py3-none-any.whl
+six
 sqlparse==0.5.3
 toposort==1.10
 typing-extensions==4.13.2
