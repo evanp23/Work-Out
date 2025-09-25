@@ -8,5 +8,6 @@ urlpatterns = [
     path("user/<int:id>/", user_views.user, name="GUDUser"),
     path("user/<int:id>/workout/", user_views.userWorkout, name="userWorkout"),
     path("workout/", workout_views.createWorkout, name="createWorkout"),
-    path("workout/<int:id>/", workout_views.workout, name="GUDWorkout")
+    path("workout/<int:id>/", workout_views.workout, name="GUDWorkout"),
+    
 ]
