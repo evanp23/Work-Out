@@ -38,6 +38,16 @@ class Exercise(models.Model):
     label = models.CharField(max_length=1000, null=True, blank=True)
     notes = models.CharField(max_length=32000, null=True, blank=True)
 
+    def jsonToExercise(exercise, json):
+        exercise.movement = json['movement'] if "movement" in json else exercise.movement
+        exercise.workout = json['workout'] if "workout" in json else exercise.workout
+        exercise.date_created = json['date_created'] if "date_created" in json else exercise.date_created
+        exercise.time_spent_s = json['time_spent_s'] if "time_spent_s" in json else exercise.time_spent_s
+        exercise.label = json['label'] if "label" in json else exercise.label
+        exercise.notes = json['notes'] if "notes" in json else exercise.notes
+
+        return exercise
+
 class Set(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     set_num = models.IntegerField()

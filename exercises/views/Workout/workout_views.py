@@ -19,8 +19,7 @@ def createWorkout(request):
 
         new_workout = Workout(
             gym = req_json['gym'],
-            started = req_json['started'],
-            completed = req_json['completed'],
+            started = datetime.now(),
             label = req_json['label'],
             notes = req_json['notes'],
             user = user

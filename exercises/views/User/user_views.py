@@ -2,7 +2,7 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse,JsonResponse
 from exercises.models.User.user_models import User
-from exercises.models.Workout.workout_models import Workout
+from exercises.models.Workout.workout_models import Movement
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from datetime import datetime
@@ -64,4 +64,34 @@ def userWorkout(request, id):
 
     if(request.method == 'GET'):
         res_json = serializers.serialize("json", workouts)
+        return HttpResponse(res_json, content_type='application/json')
+    
+@csrf_exempt
+def userMovement(request, id):
+    if not(User.objects.filter(pk=id)):
+        return HttpResponse("{\"error\": \"user does not exist\"}", content_type='application/json', status=HTTPStatus.NOT_FOUND)
+    user = User.objects.get(pk=id)
+
+    #create a new user
+    if(request.method == 'POST'):
+        req_json = json.loads(request.body.decode('utf-8'))
+        new_movement = Movement(
+            name = req_json['name'],
+            created_by = user,
+            date_created = datetime.now(),
+            category = req_json['category']
+        )
+        new_movement.save()
+
+        new_movement = Movement.objects.get(id=new_movement.id)
+        res_json = serializers.serialize("json", [new_movement])
+    
+        return HttpResponse(res_json, content_type='application/json')
+    
+    # get all movements created by user
+    elif(request.method == 'GET'):
+        print('eeeeeeeeeellooooo')
+        movements = Movement.objects.filter(created_by=user.id)
+        print(movements)
+        res_json = serializers.serialize("json", movements)
         return HttpResponse(res_json, content_type='application/json')

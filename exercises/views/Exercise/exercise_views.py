@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import json
 from django.http import HttpResponse,JsonResponse
-from exercises.models.Workout.workout_models import Exercise, Movement, Workout
+from exercises.models.Workout.workout_models import Exercise, Movement, Workout, Set
 from exercises.models.User.user_models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -13,7 +13,7 @@ from http import HTTPStatus
 def createExercise(request):
     req_json = json.loads(request.body.decode('utf-8'))
 
-    #create a new workout
+    #create a new exercise
     if(request.method == 'POST'):
         movement = Movement.objects.get(pk=req_json['movement'])
         workout = Workout.objects.get(pk=req_json['workout'])
@@ -37,24 +37,32 @@ def createExercise(request):
 
 @csrf_exempt
 def exercise(request, id):
-    if not(Workout.objects.filter(pk=id)):
-        return HttpResponse("{\"error\": \"workout does not exist\"}", content_type='application/json')
-    workout = Workout.objects.get(pk=id)
+    if not(Exercise.objects.filter(pk=id)):
+        return HttpResponse("{\"error\": \"exercise does not exist\"}", content_type='application/json')
+    exercise = Exercise.objects.get(pk=id)
 
-    # Get a workout by id
+    # Get an exercise by id
     if(request.method == 'GET'):
-        res_json = serializers.serialize("json", [workout])
+        res_json = serializers.serialize("json", [exercise])
         return HttpResponse(res_json, content_type='application/json')
 
-    # update an existing workout
+    # update an existing exercise
     elif(request.method == 'PUT'):
         req_json = json.loads(request.body.decode('utf-8'))
-        workout = Workout.jsonToWorkout(workout, req_json)
-        workout.save()
-        res_json = serializers.serialize("json", [workout])
+        exercise = Exercise.jsonToExercise(exercise, req_json)
+        exercise.save()
+        res_json = serializers.serialize("json", [exercise])
         return HttpResponse(res_json, content_type='application/json')
 
-    # Delete and existing workout
+    # Delete and existing exercise
     elif(request.method == 'DELETE'):
-        workout.delete()
+        exercise.delete()
         return HttpResponse(status=HTTPStatus.NO_CONTENT)
+    
+# get all sets with given exercise id
+def exerciseSet(request, id):
+    sets = Set.objects.filter(exercise=id)
+
+    if(request.method == 'GET'):
+        res_json = serializers.serialize("json", sets)
+        return HttpResponse(res_json, content_type='application/json')
