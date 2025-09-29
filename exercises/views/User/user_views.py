@@ -2,7 +2,7 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse,JsonResponse
 from exercises.models.User.user_models import User
-from exercises.models.Workout.workout_models import Movement
+from exercises.models.Workout.workout_models import Movement, Workout
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from datetime import datetime
@@ -60,6 +60,8 @@ def user(request, id):
 
 # get all workouts with given user id
 def userWorkout(request, id):
+    if not(User.objects.filter(user=id)):
+        return HttpResponse("{\"error\": \"User does not exist\"}", content_type='application/json', status=HTTPStatus.NOT_FOUND)
     workouts = Workout.objects.filter(user=id)
 
     if(request.method == 'GET'):

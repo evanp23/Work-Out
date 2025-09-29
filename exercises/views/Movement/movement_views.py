@@ -11,6 +11,8 @@ from http import HTTPStatus
 
 # Get, Update, Delete Movement by id
 def GUDMovement(request, id):
+    if not(Movement.objects.filter(pk=id)):
+        return HttpResponse("{\"error\": \"Movement does not exist\"}", content_type='application/json', status=HTTPStatus.NOT_FOUND)
     movement = Movement.objects.get(pk=id)
 
     # Get a movement by id

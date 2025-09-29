@@ -36,7 +36,7 @@ def createWorkout(request):
 @csrf_exempt
 def workout(request, id):
     if not(Workout.objects.filter(pk=id)):
-        return HttpResponse("{\"error\": \"workout does not exist\"}", content_type='application/json')
+        return HttpResponse("{\"error\": \"Workout does not exist\"}", content_type='application/json')
     workout = Workout.objects.get(pk=id)
 
     # Get a workout by id
