@@ -30,6 +30,14 @@ class Movement(models.Model):
     date_created = models.DateTimeField("date created")
     category = models.CharField(max_length=500, null=True, blank=True)
 
+    def jsonToMovement(movement, json):
+        movement.name = json['name'] if "name" in json else movement.name
+        movement.created_by = json['created_by'] if "created_by" in json else movement.created_by
+        movement.date_created = json['date_created'] if "date_created" in json else movement.date_created
+        movement.category = json['category'] if "category" in json else movement.category
+
+        return movement
+
 class Exercise(models.Model):
     movement = models.ForeignKey(Movement, on_delete=models.CASCADE)
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
